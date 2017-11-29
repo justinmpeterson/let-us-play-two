@@ -2,9 +2,9 @@ from player import Player
 
 class Team:
     def __init__(self, p_Id, p_Location, p_Name, p_Abbr, p_Home, p_Players):
-        players = {}
-        lineup = []
-        pitchers = []
+        self.players = {}
+        self.lineup = []
+        self.pitchers = []
 
         self.info = {"team_id": p_Id,
             "team_location": p_Location,
@@ -17,4 +17,4 @@ class Team:
             "e": 0}
 
         for k, v in p_Players.items():
-            players[k] = v
+            self.players[k] = v

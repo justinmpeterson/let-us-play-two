@@ -5,6 +5,8 @@ class Player:
             "last_name": p_Last,
             "position": p_Pos,
             "classification": p_Class}
+        self.game_info = {"gs": 0,
+            "gp": 0}
         self.bat_stats = {"pa": 0,
             "ab": 0,
             "h": 0,

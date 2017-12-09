@@ -1,12 +1,40 @@
+from half_inning import HalfInning
 from player import Player
 from team import Team
 
 class Game:
+    def play_ball(self):
+        keep_playing = True
+        half_inning_idx = 1
+
+        while(keep_playing):
+            self.game_info["curr_tb"] = "Top" if half_inning_idx % 2 == 1 else "Bottom"
+            self.game_info["curr_ntb"] = "Top" if self.game_info["curr_tb"] == "Bottom" else "Bottom"
+            this_hinning = HalfInning(half_inning_idx, self.teams[self.game_info["curr_tb"]], self.teams[self.game_info["curr_ntb"]])
+
+            while(this_hinning.outs < 3):
+                this_hinning.plate_appearance()
+
+            half_inning_idx += 1
+
+            # game over if home team is beating away team after Top 9th
+            if(half_inning_idx == 18 and self.teams[ntb].game_info.r > self.teams[tb].game_info.r):
+                keep_playing = False
+            # game over if score is different after Bottom 9th
+            elif(half_inning_idx == 19 and self.teams[ntb].game_info.r != self.teams[tb].game_info.r):
+                keep_playing = False
+            # (temporary) game over after the 10th
+            elif(half_inning_idx == 21):
+                keep_playing = False
+            elif input("Keep going? ").upper() == "N":
+                keep_playing = False
+
     def __init__(self, p_Id):
         self.teams = {}
 
         self.game_info = {"game_id": p_Id,
-            "bat_slots": {"Top": 0, "Bottom": 0},
+            "curr_tb": "Top",
+            "curr_ntb": "Bottom",
             "pit_slots": {"Top": 0, "Bottom": 0}}
 
         a_players = {}
@@ -59,5 +87,5 @@ class Game:
 
         h_pitchers.append(h_players[70])
 
-        self.teams["Top"] = Team(101, "Austin", "Zeppelins", "AUS", False, a_players)
-        self.teams["Bottom"] = Team(102, "Chicago", "Aeronauts", "CHI", True, h_players)
+        self.teams["Top"] = Team(101, "Austin", "Zeppelins", "AUS", False, a_players, a_lineup, a_pitchers)
+        self.teams["Bottom"] = Team(102, "Chicago", "Aeronauts", "CHI", True, h_players, h_lineup, h_pitchers)

@@ -6,11 +6,15 @@ class Game:
     def play_ball(self):
         keep_playing = True
         half_inning_idx = 1
+        tb = None
+        ntb = None
 
         while(keep_playing):
             self.game_info["curr_tb"] = "Top" if half_inning_idx % 2 == 1 else "Bottom"
+            tb = self.game_info["curr_tb"]
             self.game_info["curr_ntb"] = "Top" if self.game_info["curr_tb"] == "Bottom" else "Bottom"
-            this_hinning = HalfInning(half_inning_idx, self.teams[self.game_info["curr_tb"]], self.teams[self.game_info["curr_ntb"]])
+            ntb = self.game_info["curr_ntb"]
+            this_hinning = HalfInning(half_inning_idx, self.teams[tb], self.teams[ntb])
 
             while(this_hinning.outs < 3):
                 this_hinning.plate_appearance()
